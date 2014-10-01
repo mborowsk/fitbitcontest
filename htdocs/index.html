@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="us">
+<head>
+    <meta charset="utf-8">
+
+    <title>Welcome to InnovateFit 2015</title>
+
+    <link href="css/smoothness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.4.custom.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  
+    <style>
+    body{
+        font: 75.0% "Trebuchet MS", sans-serif;
+        margin: 50px;
+    }
+    .demoHeaders {
+        margin-top: 2em;
+    }
+    #dialog-link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+    #dialog-link span.ui-icon {
+        margin: 0 5px 0 0;
+        position: absolute;
+        left: .2em;
+        top: 50%;
+        margin-top: -8px;
+    }
+    #icons {
+        margin: 0;
+        padding: 0;
+    }
+    #icons li {
+        margin: 2px;
+        position: relative;
+        padding: 4px 0;
+        cursor: pointer;
+        float: left;
+        list-style: none;
+    }
+    #icons span.ui-icon {
+        float: left;
+        margin: 0 4px;
+    }
+    .fakewindowcontain .ui-widget-overlay {
+        position: absolute;
+    }
+    </style>
+</head>
+<body>
+
+<h1><IMG SRC="./images/innovatefitheader.png" ALT="Home"></h1>
+<A HREF="https://hub.jazz.net"><IMG SRC="./images/jazzhub.png" ALT="Home" WIDTH=180 HEIGHT=38></A>
+<A HREF="http://www.fitbit.com"><IMG SRC="./images/fitbit.png" ALT="Home" WIDTH=90 HEIGHT=32></A>
+<A HREF="http://www.twillio.com"><IMG SRC="./images/twillio.png" ALT="Home" WIDTH=96 HEIGHT=32></A>
+<A HREF="http://www.twitter.com/InnovateFit"><IMG SRC="./images/Twitter_logo_blue.png" ALT="Home" HSPACE=10 WIDTH=32 HEIGHT=32></A>
+
+<div class="ui-widget">
+    <p>Welcome to the InnovateFit 2014 fitness challenge.  If you are using a compatible FitBit device, we will track your steps throughout the week of the conference and show rankings for you and your Innovate friends.  Whether or not you are participating in the InnovateFit 2014 fitness challenge, you can track the leaderboard here by selecting the &quot;InnovateFit Leaderboard&quot; tab below.  You can also follow the top ranked participants on Twitter and/or via SMS text messaging.  See the &quot;Getting Started&quot; tab below to learn how you can particpate in the InnovateFit 2014 fitness challenge!  Oh, by the way, you may also be interested in participating in our other fitness challenge, <a href="http://innovaterun.com">InnovateRun 2014</a>.</p>
+</div>
+
+<!-- Tabs -->
+<h2 class="demoHeaders"></h2>
+
+<!-- Tabs -->
+<h2 class="demoHeaders"></h2>
+
+    <script type="text/javascript">
+    $(function() {
+    drawChart();
+    $( "#tabs" ).tabs();
+    });
+    </script>
+    
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Getting Started</a></li>
+        <li><a href="#tabs-2">FitBit Settings</a></li>
+        <li><a href="php/leaderboard.php">InnovateFit Leaderboard</a></li>
+        <li><a href="#tabs-4">Performance Graph</a></li>
+        <li><a href="#tabs-5">Leaderboard on Twitter</a></li>
+        <li><a href="#tabs-6">Leaderboard via SMS</a></li>
+    </ul>
+    <div id="tabs-1">
+    <ol>
+        <li>To participant in the InnovateFit 2014 fitness challenge you must have a FitBit device and account. Please see the "FitBit Settings" tab above to ensure your privacy settings will allow us to access your account information in order to track your steps during the conference.  Visit the <a href="http://www.fitbit.com">FitBit</a> website to learn more about FitBit devices and setting up your account.</li>
+        <li>Send a FitBit Friend request to InnovateFit 2014 using innovatefit2014@gmail.com.</li>
+        <li>Follow the most active InnovateFit 2014 participants on Twitter <a href="http://www.twitter.com/InnovateFit">@InnovateFit</a>.  Please see the "Leaderboard on Twitter" tab above for additional information.</li>        
+        <li>Follow the most active InnovateFit 2014 participants via text messaging.  Please see the "Leaderboard via SMS" tab above for additional information.</li>
+        <li>The last thing to do is get out and get physical.  We hope to see your name on top of the leaderboard!</li>
+    </ol>
+    </div>
+    <div id="tabs-2">
+    	Once you have added InnovateFit as a friend (via email to innovatefit2014@gmail.com) you'll need to adjust/verify your privacy settings.  Navigate to Settings/Privacy and set Activities to "Friends" or "Anyone".  Optionally, to have your Avatar picture displayed on the leaderboard, set Profile Photo to "Friends" or "Anyone".
+        <br><br>
+        <img src="./images/fbsets.png"  height="500" width="700"> 
+    </div>
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      google.load("visualization", "1", {packages:["corechart"]});
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+    function drawChart() {
+      var jsonData = $.ajax({
+          //url: "getData2.php",
+          //url: "getData.php",
+          url: "graphData.php",
+          dataType:"json",
+          async: false
+          }).responseText;  
+          
+          
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(jsonData);
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.ColumnChart(document.getElementById('tabs-4'));
+      chart.draw(data, {width: 900, height: 400});
+    }
+    </script>
+
+    <div id="tabs-4" style="width:500px";"width:500px"></div>
+
+    <div id="tabs-5">
+        This JazzHub/BlueMix created application subscribes to the Twitter API.  Every time there is a leaderboard change a tweet will be sent out with the new leaders.  You will only get 140 characters of leaders of course. Just go to your twitter account and follow us <a href="http://www.twitter.com/InnovateFit">@InnovateFit</a> and enjoy the activity over the week.
+        <br><br>
+<a class="twitter-timeline"  width="600" href="https://twitter.com/search?q=%40InnovateFit2014" data-widget-id="470882088921477120">Tweets about "@InnovateFit2014"</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+
+
+
+</div>
+    
+    <div id="tabs-6">
+		Our Jazzhub/BlueMix created application leverages the Twilio SMS API.  If you text your name (or nickname) to 541-BEFIT14 (541-233-4814) you will recieve an SMS messages every time there is a leaderboard change.  Simply text "no" to 541-BEFIT14 (541-233-4814) and you will stop recieving SMS updates.
+    </div>
+    
+    </div>
+</div>
+
+</body>
+</html>

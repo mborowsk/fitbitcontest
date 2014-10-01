@@ -1,0 +1,9 @@
+---
+applications:
+- name: InnovateFit
+  memory: 64MB
+  instances: 1
+  host: innovatefit
+  path: .
+  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack.git#v1.2
+
