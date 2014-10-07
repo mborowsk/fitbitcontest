@@ -1,17 +1,15 @@
-This README.md file is displayed on your project page. You should edit this 
-file to describe your project, including instructions for building and 
-running the project, pointers to the license under which you are making the 
-project available, and anything else you think would be useful for others to
-know.
+The Fitbit Step Contest App allows you to quickly create a website that will access a list of Fitbit friends to display a daily leaderboard.  As leaders change in realtime tweets and text message are sent out to those subscribed for up to the minute noifications. You can look at www.innovatefit.com to see a live example of this code at work.
 
-We have created an empty license.txt file for you. Well, actually, it says,
-"<Replace this text with the license you've chosen for your project.>" We 
-recommend you edit this and include text for license terms under which you're
-making your code available. A good resource for open source licenses is the 
-[Open Source Initiative](http://opensource.org/).
+Here are the steps to reuse the code and customize for you own event:
 
-Be sure to update your project's profile with a short description and 
-eye-catching graphic.
+1)  Setup a Fitbit user for all Contest participants to friend.
+	a.  Register as a new user with fitbit using a catchy name that everyone will want to friend.
+	b.  Register your app with fitbit at https://dev.fitbit.com/apps/new ensuring you register as a web app and for read/write access.
+	c.  Copy down your Client(Consumer) Key and your Client(Consumer) Secret as they will be added to code to use on the oauth process.
+	d.  In the file htdocs/php/fitbitopt.php as below:
+		define("FITBIT_CONSUMER_KEY", "YOUR KEY HERE"); // CHANGE THIS FOR FITBIT APP KEY
+		define("FITBIT_CONSUMER_SECRET", "YOUR SECRET HERE"); // CHANGE THIS FOR FITBIT APP SECRET
 
-Finally, consider defining a timeline and work items on the "Current Work" tab 
-to give interested developers a sense of your cadence and upcoming enhancements.
+2)  Add a database to your app.
+	a.  In BlueMix go to the Catalog and look under the Data Management subject.
+	b.  Choose the ClearDB Database service and choose your app to connect it to when configuring		
