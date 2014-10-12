@@ -1,9 +1,9 @@
 ---
 applications:
-- name: InnovateFit
+- name: FitbitApp
   memory: 64MB
   instances: 1
-  host: innovatefit
+  host: FitbitApp
   path: .
-  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack.git#v1.2
+  buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack.git
 

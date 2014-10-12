@@ -1,9 +1,9 @@
 <?php
 
 /**
- * oauth-php: Exampe OAuth client for accessing Google Docs
+ * leaderboard.php - logic that creates HTML leaderboard page
  *
- * @author BBG
+ * @author Todd Long and Mark Borowski
  *
  * 
  * The MIT License
@@ -248,7 +248,7 @@ if (okToUpdate() == 1) {
 		if ($lbChange == 0)
 		{
 			$posChange = "<center>No<br>Change</center>";
-			$tweetTxt = 'TopTen@' . date('H:i') . ' Congrats ' . $v1['display_name'] . ', you\'ve maintained your #' . $curRank . ' position on the @InnovateFit Top Ten leaderboard with ' . $v1['steps'] . ' steps.';
+			$tweetTxt = 'TopTen@' . date('H:i') . ' Congrats ' . $v1['display_name'] . ', you\'ve maintained your #' . $curRank . ' position on the @fitbitcontest Top Ten leaderboard with ' . $v1['steps'] . ' steps.';
 		}
 		//If previous ranking is lower than current ranking
 		elseif ($lbChange > 0)
@@ -258,12 +258,12 @@ if (okToUpdate() == 1) {
 			//If friend has moved to number one position, then force this tweet
 			if ($curRank == 1)
 			{
-				$tweetTxt = 'TopTen@' . date('H:i') . ' Way to Go ' . $v1['display_name'] . '!!! You\'ve reached the top of the @InnovateFit leaderboard at #' . $curRank . ' with ' . $v1['steps'] . ' steps!';
+				$tweetTxt = 'TopTen@' . date('H:i') . ' Way to Go ' . $v1['display_name'] . '!!! You\'ve reached the top of the @fitbitcontest leaderboard at #' . $curRank . ' with ' . $v1['steps'] . ' steps!';
 				$randRank = $curRank;
 			}
 			else
 			{
-				$tweetTxt = 'TopTen@' . date('H:i') . ' Congrats ' . $v1['display_name'] . ', you\'ve moved up on the @InnovateFit Top Ten leaderboard and are now ranked #' . $curRank . ' with ' . $v1['steps'] . ' steps.';		
+				$tweetTxt = 'TopTen@' . date('H:i') . ' Congrats ' . $v1['display_name'] . ', you\'ve moved up on the @fitbitcontest Top Ten leaderboard and are now ranked #' . $curRank . ' with ' . $v1['steps'] . ' steps.';		
 			}
 			
 			//If there is a change in the top five, flag the Twilio SMS
@@ -277,7 +277,7 @@ if (okToUpdate() == 1) {
 		{
 			$lbChange = $lbChange * -1;
 			$posChange = "<center>Down by<br>" . $lbChange . "</center>";
-			$tweetTxt = 'TopTen@' . date('H:i') . ' Warning ' . $v1['display_name'] . ', you\'re still on the @InnovateFit Top Ten leaderboard, but you\'ve slipped from #' . $prvRank['ranking'] . ' to #' . $curRank . ' with ' . $v1['steps'] . ' steps.';
+			$tweetTxt = 'TopTen@' . date('H:i') . ' Warning ' . $v1['display_name'] . ', you\'re still on the @fitbitcontest Top Ten leaderboard, but you\'ve slipped from #' . $prvRank['ranking'] . ' to #' . $curRank . ' with ' . $v1['steps'] . ' steps.';
 
 			//If there is a change in the top five, flag the Twilio SMS			
 			if($curRank < 6)
@@ -293,7 +293,7 @@ if (okToUpdate() == 1) {
 			$tweetTxt = chunk_split($tweetTxt, 140);
 
 			$postfields = array(
-			'screen_name' => 'InnovateFit2014', 
+			'screen_name' => SCREEN_NAME, 
 			'status' => $tweetTxt
 			);
     
@@ -346,7 +346,7 @@ if (okToUpdate() == 1) {
 	}	
 
 	//Finalize the HTML content
-	$dynHTML = '<!DOCTYPE html> <html> <head> <meta charset="US-ASCII"> <title>InnovateFit 2014 Leader Board</title> </head> <body><table><tbody><tr><td><table border="1"><tbody><br>InnovateFit Leaderboard as of: ' . date('l h:i:s A') . '<br>Next update in approximately ' . $updInterval . ' minutes...<tr><td style="color: white; background-color: #06b1da; text-align: center" width="60">Current<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="50"><br>Avatar</td><td style="color: white; background-color: #02416b; text-align: center" width="150"><br>Name</td><td style="color: white; background-color: #84d1f5; text-align: center" width="60"><br>Steps</td><td style="color: white; background-color: #2c9d70; text-align: center" width="60">Active<br>Minutes</td><td style="color: white; background-color: #06b1da; text-align: center" width="60">Previous<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="60">Position<br>Change</td></tr>' . $dynHTML . '</tbody> </table></td><td></td><td><table border="1" style="position: relative"><caption align="top">Yesterday\'s Top Five</caption><tbody>' . $yesterdaysTopFive . '</tbody></table><br><table border="1" style="position: relative"><caption align="top">Two Days Ago</caption><tbody>' . $twodaysagoTopFive . '</tbody></table></td></tr></tbody></table></body> </html>';
+	$dynHTML = '<!DOCTYPE html> <html> <head> <meta charset="US-ASCII"> <title>Fitbit Contest Leader Board</title> </head> <body><table><tbody><tr><td><table border="1"><tbody><br>Leaderboard as of: ' . date('l h:i:s A') . '<br>Next update in approximately ' . $updInterval . ' minutes...<tr><td style="color: white; background-color: #06b1da; text-align: center" width="60">Current<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="50"><br>Avatar</td><td style="color: white; background-color: #02416b; text-align: center" width="150"><br>Name</td><td style="color: white; background-color: #84d1f5; text-align: center" width="60"><br>Steps</td><td style="color: white; background-color: #2c9d70; text-align: center" width="60">Active<br>Minutes</td><td style="color: white; background-color: #06b1da; text-align: center" width="60">Previous<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="60">Position<br>Change</td></tr>' . $dynHTML . '</tbody> </table></td><td></td><td><table border="1" style="position: relative"><caption align="top">Yesterday\'s Top Five</caption><tbody>' . $yesterdaysTopFive . '</tbody></table><br><table border="1" style="position: relative"><caption align="top">Two Days Ago</caption><tbody>' . $twodaysagoTopFive . '</tbody></table></td></tr></tbody></table></body> </html>';
 
 	//Wtire HTML content to disk
 	file_put_contents('leaderboard.html', $dynHTML);
@@ -359,7 +359,7 @@ if (okToUpdate() == 1) {
 	file_put_contents("barchart.json",json_encode($barChartArray));
 
 	//Finalize log file and write to disk
-	$consoleLog = $consoleLog . '<br>SUCCESS! at ' . $now . '<br><a href="http://www.innovatefit.com">View the InnovateFit Leader Board</a><br>';
+	$consoleLog = $consoleLog . '<br>SUCCESS! at ' . $now . 'View the Leader Board</a><br>';
 
 	file_put_contents('consoleLog.html', $consoleLog);
 	mysql_close($conn);
@@ -367,7 +367,7 @@ if (okToUpdate() == 1) {
 	//Finalize text to be passed to Twilio and send SMS
 	if($twilioSnd == 1)
 	{
-		$twilioTxt = "InnovateFit TopFive" . "\n" . "as of " . date('H:i') . "\n" . $twilioTxt . 'Visit http://www.innovatefit.com';
+		$twilioTxt = "Fitbit Contest TopFive" . "\n" . "as of " . date('H:i') . "\n" . $twilioTxt;
 		twilioLdbrSend($twilioTxt); 
 	}
 }

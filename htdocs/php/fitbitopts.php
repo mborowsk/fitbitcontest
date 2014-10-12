@@ -1,7 +1,7 @@
 
 <?php
-define("FITBIT_CONSUMER_KEY", "5598c70ef0df45e18961694c2b8a7f26"); // 
-define("FITBIT_CONSUMER_SECRET", "1443152be07a43c9bd046f2f2ec8abb1"); // 
+define("FITBIT_CONSUMER_KEY", "66f6ee05201842789ee45eeb1c826411"); // 
+define("FITBIT_CONSUMER_SECRET", "1424d4bda97c4619948323419ce8d1ff"); // 
 
 define("FITBIT_OAUTH_HOST", "https://api.fitbit.com");
 define("FITBIT_REQUEST_TOKEN_URL", FITBIT_OAUTH_HOST . "/oauth/request_token");

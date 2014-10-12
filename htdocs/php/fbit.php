@@ -1,9 +1,9 @@
 <?php
 
 /**
- * oauth-php: Example OAuth client for accessing Google Docs
+ * fbit.php: Fitbit Oauth Token Verification using Google PHP Oauth Code
  *
- * @author BBG
+ * @author Mark Borowski
  *
  * 
  * The MIT License
@@ -171,11 +171,11 @@ try
  
 		}
 
-        echo $friendsString;
+        //echo $friendsString;
 
-        var_dump($store->listServerTokens($user_id));
+        //var_dump($store->listServerTokens($user_id));
 
-        echo "tokens";
+        echo "oauth token success";
 
 	}
 }

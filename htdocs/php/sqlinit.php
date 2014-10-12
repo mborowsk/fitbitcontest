@@ -32,9 +32,9 @@ $user_id = 1;
 
 $store->updateServer($options, $user_id);
 
-echo $store->listServers('',$user_id);
+//echo $store->listServers('',$user_id);
 
-var_dump($store->listServers('',$user_id));
+//var_dump($store->listServers('',$user_id));
 
 function openConnection(){
 	//parse vcap_services
@@ -79,7 +79,7 @@ function sqlCreateSMSTable(){
 	{
   	echo('Could not create database table: ' . mysql_error() . '<br/>');
 	} else {
-  	echo "Created database table successfully<br/>";
+  	echo "Created SMS database table successfully<br/>";
 	}
 /*
 	//add record to database
@@ -111,7 +111,7 @@ function sqlCreateCheckTimeTable(){
 	{
   	echo('Could not create database table: ' . mysql_error() . '<br/>');
 	} else {
-  	echo "Created database table successfully<br/>";
+  	echo "Created Timetable database table successfully<br/>";
 	}
 
 	//add record to database
@@ -140,7 +140,7 @@ function sqlCreateTable(){
 	{
   	echo('Could not create database table: ' . mysql_error() . '<br/>');
 	} else {
-  	echo "Created database table successfully<br/>";
+  	echo "Created History database table successfully<br/>";
 	}
 	
 	closeConnection($conn);
