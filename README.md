@@ -12,8 +12,8 @@ Here are the steps to reuse the code and customize for you own event:
 	Examine your bluemix dashboard and see that you have running with app with assingned name/route.
 
 4)  Setup a Fitbit user for all Contest participants to friend.
-	a.  Register as a new user with fitbit using a catchy name that everyone will want to friend. 
-		(We used a generic fibit account with user=fitbitcontest, email=fitbitcontest@gmail.com, pw=fitbitc0ntest).
+	a.  Register as a new user with fitbit.com using a catchy name that everyone will want to friend. 
+		(We used a generic fibit account in example with user=fitbitcontest, email=fitbitcontest@gmail.com, pw=fitbitc0ntest).
 	b.  Register your app with fitbit at https://dev.fitbit.com/apps/new ensuring you register as a web app and for read/write access.
 		(Fitbit will ask for a webapp name and call back.  The web app name is the bluemix route and callback is "route"/php/fbit.php but you can change later as needed)
 	c.  Copy down your Client(Consumer) Key and your Client(Consumer) Secret as they will be added to code to use in the oauth process.
@@ -57,7 +57,7 @@ Here are the steps to reuse the code and customize for you own event:
 	        'consumer_secret' => "CONSUMER_SECRET_HERE"
 	    );
 	
-	
-10)  Add Text message Updates for partipants to follow changes in leaderboard
+10)  Add Text message support via Twillio to update partipants of changes in leaderboard
+	a.  TBD
 	
 		

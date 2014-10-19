@@ -104,7 +104,7 @@ function sqlCreateCheckTimeTable(){
 
     $now = date('Y-m-d H:i:s');
 
-	$sql_create = 'CREATE TABLE ACCESSCHECK(id CHAR(6) default "my_key", check_sum CHAR(32), ok2access INT default 1, update_datetime DATETIME)';
+	$sql_create = 'CREATE TABLE ACCESSCHECK(id CHAR(6) default "my_key", check_sum CHAR(32), ok2access INT default 1, update_datetime DATETIME, update_interval INT default 20, throttle INT default 0)';
 
 	$retval = mysql_query($sql_create, $conn );
 	if(! $retval )
