@@ -56,8 +56,13 @@ Here are the steps to reuse the code and customize for you own event:
 	        'consumer_key' => "CONSUMER_KEY_HERE",
 	        'consumer_secret' => "CONSUMER_SECRET_HERE"
 	    );
+	h.  You can test the tweet function by invoking "route"/php/tweetsend.php
 	
 10)  Add Text message support via Twillio to update partipants of changes in leaderboard
-	a.  TBD
+	a.  Add the Twilio service (under mobile) to your app via the dashboard.  You will have to sign up directly at Twillio.com to get your Account SID and Account Token to complete the addition of the service.
+	b.  We are using an active trial account in the example with these credentials: user-fitbitcontest@gmail.com pw-fitbitc0ntest acctSID-AC05088adab848acff6fb1950cbd840128 acctToken-dc72dc32729a6a54476e0265990ab46c.
+	c.  Once you get a full Twilio account register "route"/php/smsldb.php as the callback url for Twilio to call when someone text's you account phone #.  The code will add or remove users to/from a database table 
+		so they will selectively receive updates as they choose.
+	d.  You can test the Twilio function by invoking "route"/php/smssend.php.  All "send to" #s must first be registered with Twilio. Additionally you must set the "TO_NUM" to match in the top of the "php/smssend.php" file
 	
 		

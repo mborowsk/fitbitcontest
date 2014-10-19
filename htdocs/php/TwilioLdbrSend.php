@@ -64,7 +64,7 @@ $Turl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/Messag
 while($record = mysql_fetch_array($retval)) {
 	$Parray = array(
             "To" => $record['phone_num'],
-            "From" => "XXX-XXX-XXXX",
+            "From" => FROM_NUM,
             "Body" => $message);
 	//curl_post($Turl, $Parray, $auth_array);
 	curl_post($Turl, $Parray);

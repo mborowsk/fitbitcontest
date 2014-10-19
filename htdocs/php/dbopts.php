@@ -3,7 +3,7 @@
 if( getenv("VCAP_SERVICES") ) {
     $json = getenv("VCAP_SERVICES");
 } 
-# Check for local file, placed by: af tunnel
+# Check for local file
 else if( file_exists("./vcap.php") ) {
 	echo "exists";
     $json = file_get_contents("./vcap.php");
@@ -26,8 +26,5 @@ $dboptions = array('server' => $host, 'username' => $username,
                  'password' => $password,  'database' => $db, 'port' => $port);
 
 //var_dump($dboptions);
-
-//$dboptions = array('server' => 'us-cdbr-iron-east-01.cleardb.net', 'username' => 'b8c5b688391e1e',
-//                 'password' => '2f7904d8',  'database' => 'ad_421943100bafa09', 'port' => '3306');
 
 ?>

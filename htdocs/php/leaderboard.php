@@ -36,7 +36,7 @@ include_once "./oauthphp/library/OAuthStore.php";
 include_once "./oauthphp/library/OAuthRequester.php";
 
 //Set update interval in minutes
-$updInterval = 20;
+$updInterval = 2;
 
 //Throttle back the number of API calls made. USED FOR TESTING PURPOSES ONLY
 $throttle = 0;
@@ -94,6 +94,9 @@ function okToUpdate()
 	$interval = $datetime1->diff($datetime2);
 	$delta = $interval->format('%h:%i:%s');
 	$deltaMin = $interval->format('%i');
+	
+	//echo $deltaMin.' ';
+	//echo $updInterval;
 
 	//if the number of minutes more then limit then store new time in update_datetime and return true=1 i.e. ok to update
 	if ($deltaMin > $updInterval) {

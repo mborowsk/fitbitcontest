@@ -32,7 +32,7 @@ if ($lc_name == 'no') {
 		file_put_contents('SMSprog',$progressReport);
 		die();
 		}	
-	$response = 'Thanks for trying Innovate Run Challenge.  You will no longer receive SMS messages until you resend your name to 541-233-4814';	
+	$response = 'Thanks for trying the Fitbit Step Challenge.  You will no longer receive SMS messages until you resend your name to this number';	
 } else {
 	//add record to database
 	$sql_command = "INSERT INTO SMS_TABLE (name, phone_num) VALUES ('$from_name', '$from_number')";
@@ -44,7 +44,7 @@ if ($lc_name == 'no') {
 		file_put_contents('SMSprog',$progressReport);
 		die();
 		}	
-	$response = $from_name.', Welcome to the Innovate Fit Challenge!';	
+	$response = $from_name.', Welcome to the Fitbit Step Challenge!';	
 }
 	
 mysql_close($conn);	
@@ -57,7 +57,7 @@ $Turl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/Messag
 
 $Parray = array(
             "To" => $from_number,
-            "From" => "XXX-XXX-XXXX",
+            "From" => FROM_NUM,
             "Body" => $response);
 
 curl_post($Turl, $Parray);
