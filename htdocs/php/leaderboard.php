@@ -129,7 +129,7 @@ if (okToUpdate() == 1) {
 
 
 	// make the docs requestrequest.
-	$request = new OAuthRequester("http://api.fitbit.com/1/user/-/friends.json", 'GET');		
+	$request = new OAuthRequester("https://api.fitbit.com/1/user/-/friends.json", 'GET');		
 	$result = $request->doRequest($user_id);
 
 	if ($result['code'] == 200)
@@ -169,7 +169,7 @@ if (okToUpdate() == 1) {
 		}
 			
 		//Make FitBit API call for each friend
-		$actRequest = new OAuthRequester("http://api.fitbit.com/1/user/".$value['user']['encodedId']."/activities/date/".$today.".json", 'GET');
+		$actRequest = new OAuthRequester("https://api.fitbit.com/1/user/".$value['user']['encodedId']."/activities/date/".$today.".json", 'GET');
 	
 		//Get each friend's actvity details
 		try

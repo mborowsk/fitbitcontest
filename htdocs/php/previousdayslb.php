@@ -1,7 +1,7 @@
 <?php
 
 /**
- * oauth-php: Exampe OAuth client for accessing Google Docs
+ * previousdaysdb.php: Exampe OAuth client for accessing Google Docs
  *
  * @author BBG
  *

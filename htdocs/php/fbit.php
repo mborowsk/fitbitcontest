@@ -46,7 +46,7 @@ $options = array(
 );
 
 //$callbackUrl
-$callbackUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$callbackUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 //echo $callbackUrl;
 
 // Note: do not use "Session" storage in production. Prefer a database
@@ -112,7 +112,7 @@ try
 
 		$tokenResultParams = $_GET;
 		// make the docs requestrequest.
-		$request = new OAuthRequester("http://api.fitbit.com/1/user/-/friends.json", 'GET', $tokenResultParams);
+		$request = new OAuthRequester("https://api.fitbit.com/1/user/-/friends.json", 'GET', $tokenResultParams);
 		$result = $request->doRequest($user_id);
 
 		if ($result['code'] == 200) {
@@ -143,7 +143,7 @@ try
         foreach ($friends as $key => $value) {
 
     		// make the docs requestrequest.
-			$actRequest = new OAuthRequester("http://api.fitbit.com/1/user/".$value['user']['encodedId']."/activities/date/".$today.".json", 'GET', $tokenResultParams);
+			$actRequest = new OAuthRequester("https://api.fitbit.com/1/user/".$value['user']['encodedId']."/activities/date/".$today.".json", 'GET', $tokenResultParams);
 
 			try {
 				$priv="";	
