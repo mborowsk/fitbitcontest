@@ -1,13 +1,13 @@
 <?php
 include_once "dbopts.php";
-include_once "fitbitopts.php";
+include "fitbitopts.php";
 include_once "./oauthphp/library/OAuthStore.php";
 include_once "./oauthphp/library/OAuthRequester.php";
 
 //  Init the OAuthStore
 $options = array(
-	'consumer_key' => FITBIT_CONSUMER_KEY, 
-	'consumer_secret' => FITBIT_CONSUMER_SECRET,
+	'consumer_key' => $fbitKey, 
+	'consumer_secret' => $fbitSecret,
 	'server_uri' => FITBIT_OAUTH_HOST,
 	'signature_methods' => array('HMAC-SHA1', 'PLAINTEXT'),
 	'request_token_uri' => FITBIT_REQUEST_TOKEN_URL,

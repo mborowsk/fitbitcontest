@@ -30,20 +30,22 @@
 
 
 include_once "dbopts.php";
-include_once "fitbitopts.php";
+include "fitbitopts.php";
 include_once "./oauthphp/library/OAuthStore.php";
 include_once "./oauthphp/library/OAuthRequester.php";
 
 //  Init the OAuthStore
 $options = array(
-	'consumer_key' => FITBIT_CONSUMER_KEY, 
-	'consumer_secret' => FITBIT_CONSUMER_SECRET,
+	'consumer_key' => $fbitKey, 
+	'consumer_secret' => $fbitSecret,
 	'server_uri' => FITBIT_OAUTH_HOST,
 	'signature_methods' => array('HMAC-SHA1', 'PLAINTEXT'),
 	'request_token_uri' => FITBIT_REQUEST_TOKEN_URL,
 	'authorize_uri' => FITBIT_AUTHORIZE_URL,
 	'access_token_uri' => FITBIT_ACCESS_TOKEN_URL
 );
+
+var_dump($options);
 
 //$callbackUrl
 $callbackUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -77,7 +79,7 @@ try
 			'oauth_callback' => $callbackUrl);
 
 		// get a request token
-		$tokenResultParams = OAuthRequester::requestRequestToken(FITBIT_CONSUMER_KEY, $user_id, $getAuthTokenParams);
+		$tokenResultParams = OAuthRequester::requestRequestToken($options['consumer_key'], $user_id, $getAuthTokenParams);
 
 		//var_dump($tokenResultParams);
 
@@ -97,7 +99,7 @@ try
 		$tokenResultParams = $_GET;
 		
 		try {
-		    OAuthRequester::requestAccessToken(FITBIT_CONSUMER_KEY, $oauthToken, $user_id, 'POST', $_GET);
+		    OAuthRequester::requestAccessToken($options['consumer_key'], $oauthToken, $user_id, 'POST', $_GET);
 		}
 		catch (OAuthException2 $e)
 		{

@@ -80,7 +80,6 @@ else
 //Check to see if it is time to update the leaderboard
 function okToUpdate()
 {
-	global $updInterval, $throttle, $consoleLog, $now, $conn;
 	global $updInterval, $throttle, $numPreviousDays, $consoleLog, $now, $conn;
 	
 	$sqlStmnt = "SELECT MAX(update_datetime) AS update_datetime FROM HISTORY WHERE DATE(update_datetime) = SUBDATE(CURDATE(),1)";
