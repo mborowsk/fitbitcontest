@@ -76,10 +76,21 @@ else
 	$consoleLog = $consoleLog . 'A connection to the database has been opened...<br>';
 }
 
+
 //Check to see if it is time to update the leaderboard
 function okToUpdate()
 {
 	global $updInterval, $throttle, $consoleLog, $now, $conn;
+	global $updInterval, $throttle, $numPreviousDays, $consoleLog, $now, $conn;
+	
+	$sqlStmnt = "SELECT MAX(update_datetime) AS update_datetime FROM HISTORY WHERE DATE(update_datetime) = SUBDATE(CURDATE(),1)";
+    $sqlRetVal = mysql_query($sqlStmnt, $conn);
+	$dbfield = mysql_fetch_assoc($sqlRetVal);
+	$updDateTime = $dbfield['update_datetime'];
+	
+	if (substr($updDateTime, -8) <> '23:59:59'){
+		include('previousdayslb.php');
+	}
 	
 	//Get the key my_key indexed row from ACCESSCHECK table
 	$sqlStmnt = "SELECT * FROM ACCESSCHECK WHERE id='my_key'";
@@ -87,6 +98,7 @@ function okToUpdate()
 	$dbfield = mysql_fetch_assoc($sqlRetVal);
 	$updInterval = $dbfield['update_interval'];
 	$throttle = $dbfield['throttle'];
+	$numPreviousDays = $dbfield['num_previous_days'];
 	
 	// subtract last Update_detetime from ACCESSCHECK my_key record from the current time
 	$datetime1 = new DateTime($dbfield['update_datetime']);
@@ -94,9 +106,6 @@ function okToUpdate()
 	$interval = $datetime1->diff($datetime2);
 	$delta = $interval->format('%h:%i:%s');
 	$deltaMin = $interval->format('%i');
-	
-	//echo $deltaMin.' ';
-	//echo $updInterval;
 
 	//if the number of minutes more then limit then store new time in update_datetime and return true=1 i.e. ok to update
 	if ($deltaMin > $updInterval) {
@@ -320,36 +329,34 @@ if (okToUpdate() == 1) {
 		$curRank++;
 	}
 
-	//Get yesterday's date and append one second before midnight
-	$yesterday = new DateTime(date('Y-m-d')); 
-	$yesterday = date_sub($yesterday, new DateInterval('P1D'));
-	$yesterday = $yesterday->format('Y-m-d');
-	$yesterday = $yesterday . ' 23:59:59';
-	
-	$sqlStmnt = "SELECT * FROM HISTORY WHERE UPDATE_DATETIME = '" . $yesterday . "' ORDER BY RANKING LIMIT 0, 5";
-	$sqlRet = mysql_query($sqlStmnt, $conn);
-	while ($dbfield = mysql_fetch_assoc($sqlRet))
-	{
-		$yesterdaysTopFive = $yesterdaysTopFive . '<tr><td style="text-align: left" width="100">' . $dbfield['display_name'] . '</td><td style="text-align: right" width="60">' . $dbfield['steps'] . '</td><td style="text-align: right" width="50">' . $dbfield['active_minutes'] . '</td></tr>';
-		//$consoleLog = $consoleLog . $dbfield['display_name'] . ' ' . $dbfield['steps'] . ' ' . $dbfield['active_minutes'] . '<br>';
+	$loopCtr = 1;
+	while($loopCtr <= $numPreviousDays){ 
+
+		$previousDay = new DateTime(date('Y-m-d')); 
+		$previousDay = date_sub($previousDay, new DateInterval('P' . $loopCtr . 'D'));	
+		$previousDay = $previousDay->format('Y-m-d');
+		$previousDay = $previousDay . ' 23:59:59';
+		
+		$sqlStmnt = "SELECT * FROM HISTORY WHERE UPDATE_DATETIME = '" . $previousDay . "' ORDER BY RANKING LIMIT 0, 5";
+		$sqlRet = mysql_query($sqlStmnt, $conn);
+		
+		$displayDate = new DateTime(date('l F jS'));
+		$displayDate = date_sub($displayDate, new DateInterval('P' . $loopCtr . 'D'));	
+		$displayDate = $displayDate->format('l F jS');
+		
+		$previousDayTopFive = '';
+		while ($dbfield = mysql_fetch_assoc($sqlRet))
+		{
+			$previousDayTopFive = $previousDayTopFive . '<tr><td style="text-align: left" width="100">' . $dbfield['display_name'] . '</td><td style="text-align: right" width="60">' . $dbfield['steps'] . '</td><td style="text-align: right" width="50">' . $dbfield['active_minutes'] . '</td></tr>';
+		}
+		$previousDaysTopFive = $previousDaysTopFive . '<table border="1" style="position: relative"><caption align="top">' . $displayDate . '</caption><tbody>' . $previousDayTopFive . '</tbody></table><br />';
+		
+		$loopCtr++;
 	}
 
-	//Get the day before yesterday's date and append one second before midnight
-	$twodaysago = new DateTime(date('Y-m-d')); 
-	$twodaysago = date_sub($twodaysago, new DateInterval('P2D'));
-	$twodaysago = $twodaysago->format('Y-m-d');
-	$twodaysago = $twodaysago . ' 23:59:59';
-	
-	$sqlStmnt = "SELECT * FROM HISTORY WHERE UPDATE_DATETIME = '" . $twodaysago . "' ORDER BY RANKING LIMIT 0, 5";
-	$sqlRet = mysql_query($sqlStmnt, $conn);
-	while ($dbfield = mysql_fetch_assoc($sqlRet))
-	{
-		$twodaysagoTopFive = $twodaysagoTopFive . '<tr><td style="text-align: left" width="100">' . $dbfield['display_name'] . '</td><td style="text-align: right" width="60">' . $dbfield['steps'] . '</td><td style="text-align: right" width="50">' . $dbfield['active_minutes'] . '</td></tr>';
-		//$consoleLog = $consoleLog . $dbfield['display_name'] . ' ' . $dbfield['steps'] . ' ' . $dbfield['active_minutes'] . '<br>';
-	}	
-
 	//Finalize the HTML content
-	$dynHTML = '<!DOCTYPE html> <html> <head> <meta charset="US-ASCII"> <title>Fitbit Contest Leader Board</title> </head> <body><table><tbody><tr><td><table border="1"><tbody><br>Leaderboard as of: ' . date('l h:i:s A') . '<br>Next update in approximately ' . $updInterval . ' minutes...<tr><td style="color: white; background-color: #06b1da; text-align: center" width="60">Current<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="50"><br>Avatar</td><td style="color: white; background-color: #02416b; text-align: center" width="150"><br>Name</td><td style="color: white; background-color: #84d1f5; text-align: center" width="60"><br>Steps</td><td style="color: white; background-color: #2c9d70; text-align: center" width="60">Active<br>Minutes</td><td style="color: white; background-color: #06b1da; text-align: center" width="60">Previous<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="60">Position<br>Change</td></tr>' . $dynHTML . '</tbody> </table></td><td></td><td><table border="1" style="position: relative"><caption align="top">Yesterday\'s Top Five</caption><tbody>' . $yesterdaysTopFive . '</tbody></table><br><table border="1" style="position: relative"><caption align="top">Two Days Ago</caption><tbody>' . $twodaysagoTopFive . '</tbody></table></td></tr></tbody></table></body> </html>';
+	$dynHTML = '<!DOCTYPE html> <html> <head> <meta charset="US-ASCII"> <title>InnovateFit 2014 Leader Board</title> </head> <body><table><tbody><tr><td><table border="1"><tbody><br>InnovateFit Leaderboard as of: ' . date('l h:i:s A') . '<br>Next update in approximately ' . $updInterval . ' minutes...<tr><td style="color: white; background-color: #06b1da; text-align: center" width="60">Current<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="50"><br>Avatar</td><td style="color: white; background-color: #02416b; text-align: center" width="150"><br>Name</td><td style="color: white; background-color: #84d1f5; text-align: center" width="60"><br>Steps</td><td style="color: white; background-color: #2c9d70; text-align: center" width="60">Active<br>Minutes</td><td style="color: white; background-color: #06b1da; text-align: center" width="60">Previous<br>Ranking</td><td style="color: white; background-color: #8ec641; text-align: center" width="60">Position<br>Change</td></tr>' . $dynHTML . '</tbody> </table></td><td>'  . $previousDaysTopFive . '</td></body> </html>';
+
 
 	//Wtire HTML content to disk
 	file_put_contents('leaderboard.html', $dynHTML);
