@@ -1,9 +1,6 @@
 <?php
 define("FROM_NUM", "484-679-4309");
 
-//$TwilioAccountSid = "AC05088adab848acff6fb1950cbd840128";
-//$TwilioAuthToken = "dc72dc32729a6a54476e0265990ab46c"
-
 # Check for ENV variable
 if( getenv("VCAP_SERVICES") ) {
     $json = getenv("VCAP_SERVICES");
@@ -22,8 +19,5 @@ $services_json = json_decode($json,true);
 $twilio_creds = $services_json["user-provided"][0]["credentials"];
 $TwilioAccountSid = $twilio_creds["accountSID"];
 $TwilioAuthToken = $twilio_creds["authToken"];
-
-//echo $TwilioAccountSid.' ';
-//echo $TwilioAuthToken;
 
 ?>
