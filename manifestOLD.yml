@@ -1,7 +1,0 @@
----
-applications:
-- name: InnovateFit2014MRB
-  memory: 256M
-  instances: 1
-  host: InnovateFitMRB
-  buildpack: https://github.com/mborowsk/cf-php-build-pack.git
