@@ -1,6 +1,5 @@
 <?php
 require "TwilioAuth.php";
-define("TO_NUM","+16107336135");
 
 function curl_post($url, array $post = NULL, array $options = array())
 {
