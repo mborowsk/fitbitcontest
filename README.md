@@ -1,16 +1,14 @@
 Build a Fitbit Step Contest App with Bluemix, PHP, MySQL, Twitter and Twillio
-
-*Introduction
-  Wearable fitness devices are all the rage these days, as is, social media collaboration among friends.  We have combined the two using Bluemix.  Using this application you can quickly create a daily step contest where friends engage in healthy competiton.  A live leaderboard and graphical analytics are available to all contestants along with automatic updates of leaderboard changes via Twitter and Twilio SMS messaging.  Navigating and authenticating with the Fitbit API is a simple task when you fork and reuse this application for your own contest.  Its easy to do and fun. Try it with some of your Fitbit friends today.
+Introduction
+Wearable fitness devices are all the rage these days, as is, social media collaboration among friends.  We have combined the two using Bluemix.  Using this application you can quickly create a daily step contest where friends engage in healthy competition.  A live leaderboard and graphical analytics are available to all contestants along with automatic updates of leaderboard changes via Twitter and Twilio SMS messaging.  Navigating and authenticating with the Fitbit API is a simple task when you fork and reuse this application for your own contest.  Its easy to do and fun. Try it with some of your Fitbit friends today.
 What you'll need to build your application
-Prerequisites you will need: 
--  A Bluemix account
--  A DevOps Services account
--  Some basic familiarity with PHP, JSON and MySQL (if you need to extend/debug)
--  Fitbit and Twitter accounts set up for read/write API access
+A Bluemix account
+A DevOps Services account
+Some basic familiarity with PHP, JSON and MySQL (if you need to extend/debug)
+Fitbit and Twitter accounts set up for read/write API access
 
-The following is a working example you can browse to:
-  The URL to your running app: https://www.innovatefit.com
+The URL to your running app: https://www.innovatefit.com
+The URL to get your code in DevOps Services: https://hub.jazz.net/project/mborowsk/FitbitContestApp/overview
 
 Step 1. Copy the public project and make it your own
 1. Open up the DevOps Services public project named FitbitContestApp at https://hub.jazz.net/project/mborowsk/FitbitContestApp/overview
@@ -35,12 +33,11 @@ Step 3.  Add an SQL database service to your application
 
 Step 4. Add Twilio SMS service for leaderboard updates Via SMS
 1. Add the Twilio service (under mobile) to your app via the dashboard.  You will have to sign up directly at https://www.twilio.com to get your Account SID and Account Token to complete the addition of the service.
-2. We are using an active trial account in the example with these credentials: user-fitbitcontest@gmail.com pw-fitbitc0ntest acctSID-AC05088adab848acff6fb1950cbd840128 acctToken-dc72dc32729a6a54476e0265990ab46c.
-3. Once you get a full Twilio account register https://YOURAPPURL/php/smsldb.php as the callback url for Twilio to call when someone texts to your Twilio phone number.  The code will add or remove users to/from a database table so they will selectively receive updates as they choose.
-4. All "send to" numbers must first be registered with Twilio. Additionally you must set the "TO_NUM" to match in the top of the htdocs/php/smssend.php file.
+2. Once you get a full Twilio account register https://YOURAPPURL/php/smsldb.php as the callback url for Twilio to call when someone texts to your Twilio phone number.  The code will add or remove users to/from a database table so they will selectively receive updates as they choose.
+3. All "send to" numbers must first be registered with Twilio. Additionally you must set the "TO_NUM" to match in the top of the htdocs/php/smssend.php file if you want to test single message sends.
 
 Step 5. Setup your Fitbit User and Register your Application
-1. Register as a new user with www.fitbit.com using a catchy name that everyone will want to friend.  Those who want to be in the contest will have to have their own Fitbit accounts (and devices) and simply become friends with this user.  We used a live Fitbit account in the example with these credentials:  user=fitbitcontest, email=fitbitcontest@gmail.com, pw=fitbitc0ntest).
+1. Register as a new user with www.fitbit.com using a catchy name that everyone will want to friend.  Those who want to be in the contest will have to have their own Fitbit accounts (and devices) and simply become friends with this user.  
 2. Register your app with Fitbit at https://dev.fitbit.com/apps/new ensuring you register as a web app and for read/write access.  Fitbit will ask for a webapp name and call back.  The web app name is the Bluemix app URL and callback is YOURAPPURL/php/fbit.php but you can change later as needed.
 3. Copy down your Client(Consumer) Key and your Client(Consumer) Secret as they will be added to code to use in the oauth process.
 
@@ -56,16 +53,16 @@ You now have your Twitter Id, Consumer Key, Consumer Token, Access Token and Acc
 Step 7. Add a User-Defined Service for Fitbit and Twitter 
 1. If you have not already installed the Cloud Foundary command line interface to your local machine do so now (http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html).
 2. Run “cf login”  to connect to the Bluemix instance of Cloud Foundry.
-3. Run the following commands to add and bind both the Fitbit and Twitter user-defined services to the “FitBitApp” application (we use our app name and credentials for our sample accounts but you will want to use your own):
+3. Run the following commands to add and bind both the Fitbit and Twitter user-defined services to the “FitBitApp” application (be sure to insert your credentials below as in <your_consumer_key_here>):
 
-$ cf cups Fitbit -p '{"FITBIT_CONSUMER_KEY":"66f6ee05201842789ee45eeb1c826411","FITBIT_CONSUMER_SECRET":"1424d4bda97c4619948323419ce8d1ff"}'
+$ cf cups Fitbit -p '{"FITBIT_CONSUMER_KEY":"<your_consumer_key_here>","FITBIT_CONSUMER_SECRET":"<your_consumer_secret_here>"}'
 Creating user provided service Fitbit in org mborowsk@us.ibm.com / space dev as mborowsk@us.ibm.com...
 OK
 $ cf bs FitbitApp Fitbit
 Binding service Fitbit to app FitbitApp in org mborowsk@us.ibm.com / space dev as mborowsk@us.ibm.com...
 OK
 TIP: Use 'cf push' to ensure your env variable changes take effect
-$ cf cups Twitter -p '{"token":"2815501997-bPZ4Gfp1cNuU5vpVyq8yIVYZw8VL5zmGVt6987p","tokensecret":"yCHDD5InVOh8y910pfR3biADfQdJOBKIs3szUiwmt57bE","key":"swcIoQlPehCrlT34NigaFE1Xy","secret":"53DoauZ1ijhbgeb8VwENDV5CCSw4PhWpg8eMJH402G3gOyR7Kr"}'
+$ cf cups Twitter -p '{"token":"<your_token_key_here>","tokensecret":"<your_tokensecret_key_here>","key":"<your_key_here>","secret":"<your_secret_here>"}'
 Creating user provided service Twitter in org mborowsk@us.ibm.com / space dev as mborowsk@us.ibm.com...
 OK
 $ cf bs FitbitApp Twitter
@@ -79,14 +76,14 @@ Step 7. Initialize your Database
 You should see an output that shows the successfully table creation as above.
 2. If you want to connect to the database using a viewer you would see something similar to the following.
 
-
 Step 8. Authenticate your app with Fitbit
-1. You will need to login to Fitbit from the app as the user you registered.  Again the example uses a generic fibit account (email=fitbitcontest@gmail.com, pw=fitbitc0ntest) which will work if you want to try.
+1. You will need to login to Fitbit from the app as the user you registered.  
 2. In a browser navigate to this location to login: http://YOURAPPURL/php/fbit.php.  This will start the oauth process and you will then be prompted to log in to Fitbit.  If you have set up your Fitbit user for account everyone to friend you can use those credentials else you can use the example account above. 
 A message should come up stating that Oauth tokens were exchanged successfully.   A successful result means that your app now has access to the Fitbit API and those access credentials are now stored in the database.
-
 Step  9. View your leaderboard (and let the games begin)
 1. In your browser navigate to the main page and choose the Leaderboard tab.  You should see the list if all is well.  You will only see those who have friended the main Fitbit account of course. 
 2. You can test the Twitter function by invoking https://YOURAPPURL/php/tweetsend.php.
-3. You can test the Twilio function by invoking https://YOURAPPURL/php/smssend.php.	
-		
+3. You can test the Twilio function by invoking https://YOURAPPURL/php/smssend.php.
+
+Conclusion 
+  What have we accomplished in a few simple steps?  We were able to quickly create a PHP app running in the cloud with a database, Fitbit API access, SMS and Twitter functionality. We have accomplished in minutes what would have taken days using traditional methods.  Our friends who use Fitbit can now enjoy  a dedicated website to track a healthy step competition.  As wearable health device from different manufacturers become more popular, we can easily extend this application allowing contestants with any device can participate.  Hopefully your ready to take advantage of the rapid development productivity of Bluemix and “step” into the future.
