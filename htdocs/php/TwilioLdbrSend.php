@@ -29,11 +29,45 @@ function curl_post($url, array $post = NULL, array $options = array())
     return $result;
 } 
 
+function curl_get($url)
+{
+	global $TwilioAccountSid;
+	global $TwilioAuthToken;
+    
+    $defaults = array(
+        CURLOPT_HEADER => 0,
+        CURLOPT_URL => $url,
+        CURLOPT_FRESH_CONNECT => 1,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_FORBID_REUSE => 1,
+        CURLOPT_TIMEOUT => 4,
+		CURLOPT_USERPWD => $TwilioAccountSid.":".$TwilioAuthToken
+    );
+
+    $ch = curl_init();
+    curl_setopt_array($ch, $defaults);
+    if( ! $result = curl_exec($ch))
+    {
+        trigger_error(curl_error($ch));
+    }
+    curl_close($ch);
+    return $result;
+} 
+
+
 function twilioLdbrSend($message) {
 global $TwilioAccountSid;
 global $TwilioAuthToken;
 
 global $dboptions;
+
+// get phone number to send from
+$Purl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/IncomingPhoneNumbers.json";
+$nums = curl_get($Purl);
+
+$json_nums = json_decode($nums,true);  
+
+$from_number= $json_nums["incoming_phone_numbers"][0]["phone_number"];
 
 $conn = mysql_connect($dboptions["server"] . ':' . $dboptions["port"], $dboptions["username"], $dboptions["password"]);
 
@@ -64,7 +98,7 @@ $Turl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/Messag
 while($record = mysql_fetch_array($retval)) {
 	$Parray = array(
             "To" => $record['phone_num'],
-            "From" => FROM_NUM,
+            "From" => $from_number,
             "Body" => $message);
 	//curl_post($Turl, $Parray, $auth_array);
 	curl_post($Turl, $Parray);

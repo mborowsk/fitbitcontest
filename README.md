@@ -34,7 +34,6 @@ Step 3.  Add an SQL database service to your application
 Step 4. Add Twilio SMS service for leaderboard updates Via SMS
 1. Add the Twilio service (under mobile) to your app via the dashboard.  You will have to sign up directly at https://www.twilio.com to get your Account SID and Account Token to complete the addition of the service.
 2. Once you get a full Twilio account register https://YOURAPPURL/php/smsldb.php as the callback url for Twilio to call when someone texts to your Twilio phone number.  The code will add or remove users to/from a database table so they will selectively receive updates as they choose.
-3. All "send to" numbers must first be registered with Twilio. Additionally you must set the "TO_NUM" to match in the top of the htdocs/php/smssend.php file if you want to test single message sends.
 
 Step 5. Setup your Fitbit User and Register your Application
 1. Register as a new user with www.fitbit.com using a catchy name that everyone will want to friend.  Those who want to be in the contest will have to have their own Fitbit accounts (and devices) and simply become friends with this user.  
@@ -80,10 +79,10 @@ Step 8. Authenticate your app with Fitbit
 1. You will need to login to Fitbit from the app as the user you registered.  
 2. In a browser navigate to this location to login: http://YOURAPPURL/php/fbit.php.  This will start the oauth process and you will then be prompted to log in to Fitbit.  If you have set up your Fitbit user for account everyone to friend you can use those credentials else you can use the example account above. 
 A message should come up stating that Oauth tokens were exchanged successfully.   A successful result means that your app now has access to the Fitbit API and those access credentials are now stored in the database.
+
 Step  9. View your leaderboard (and let the games begin)
 1. In your browser navigate to the main page and choose the Leaderboard tab.  You should see the list if all is well.  You will only see those who have friended the main Fitbit account of course. 
 2. You can test the Twitter function by invoking https://YOURAPPURL/php/tweetsend.php.
-3. You can test the Twilio function by invoking https://YOURAPPURL/php/smssend.php.
+3. You can test the Twilio function by invoking https://YOURAPPURL/php/smssend.php?pn=<SEND_TO_10DIGIT_NUMBER>.
 
-Conclusion 
   What have we accomplished in a few simple steps?  We were able to quickly create a PHP app running in the cloud with a database, Fitbit API access, SMS and Twitter functionality. We have accomplished in minutes what would have taken days using traditional methods.  Our friends who use Fitbit can now enjoy  a dedicated website to track a healthy step competition.  As wearable health device from different manufacturers become more popular, we can easily extend this application allowing contestants with any device can participate.  Hopefully your ready to take advantage of the rapid development productivity of Bluemix and “step” into the future.

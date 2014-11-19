@@ -1,7 +1,7 @@
 <?php
 
 /**
- * leaderboard.php - logic that creates HTML leaderboard page
+ * tweetsend.php - test twitter send function
  *
  * @author Todd Long and Mark Borowski
  *
