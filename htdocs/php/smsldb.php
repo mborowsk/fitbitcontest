@@ -52,12 +52,24 @@ mysql_close($conn);
 // Twilio REST API version.
 $ApiVersion = "2008-08-01";
 
+// get phone number to send from
+$Purl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/IncomingPhoneNumbers.json";
+$nums = curl_get($Purl);
+
+//var_dump($nums);
+
+$json_nums = json_decode($nums,true);  
+
+//var_dump($json_nums);
+
+$twilio_number= $json_nums["incoming_phone_numbers"][0]["phone_number"];
+
 //Actual Twilio URL
 $Turl = "https://api.twilio.com/2010-04-01/Accounts/".$TwilioAccountSid."/Messages";
 
 $Parray = array(
             "To" => $from_number,
-            "From" => FROM_NUM,
+            "From" => $twilio_number,
             "Body" => $response);
 
 curl_post($Turl, $Parray);
